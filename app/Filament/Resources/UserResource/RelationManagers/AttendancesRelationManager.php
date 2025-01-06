@@ -18,9 +18,9 @@ class AttendancesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-              Forms\Components\Select::make('user_id')
-                ->relationship('user', 'name')
-                ->required(),
+              // Forms\Components\Select::make('user_id')
+              //   ->relationship('user', 'name')
+              //   ->required(),
               Forms\Components\DateTimePicker::make('clock_in')
                 ->required(),
               Forms\Components\DateTimePicker::make('clock_out'),

@@ -17,7 +17,10 @@ class AttendanceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => random_int(1, 10),
+            'clock_in' => \Carbon\Carbon::now(),
+            'clock_out' => \Carbon\Carbon::now()->addHours(8),
+            'status' => 'present',
         ];
     }
 }

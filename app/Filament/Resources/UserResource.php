@@ -22,6 +22,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $navigationGroup = 'Master Data';
+
     public static function getNavigationBadge(): ?string
     {
       return static::getModel()::count();
@@ -31,11 +33,15 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nama')
                     ->required(),
                 Forms\Components\TextInput::make('username')
                     ->unique()
                     ->required(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\Select::make('role_id')
+                    ->label('Jabatan')
+                    ->relationship('role', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required(),

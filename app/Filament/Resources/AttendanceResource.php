@@ -17,9 +17,11 @@ class AttendanceResource extends Resource
 {
     protected static ?string $model = Attendance::class;
 
-    protected static ?string $navigationLabel = 'Absensi';
+    protected static ?string $navigationLabel = 'Presensi';
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+    protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
+
+    protected static ?string $navigationGroup = 'Laporan';
 
     public static function form(Form $form): Form
     {
