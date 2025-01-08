@@ -5,10 +5,6 @@ namespace App\Filament\Pages\Admin;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Support\Facades\Mail;
-
 class Presence extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-clock';

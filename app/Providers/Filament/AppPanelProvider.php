@@ -19,6 +19,9 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\MenuItem;
 use App\Filament\Pages\Auth\Login;
+use Filament\Navigation\NavigationGroup;
+// use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -32,11 +35,14 @@ class AppPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->userMenuItems([
-                  MenuItem::make()
-                      ->label('Administrator')
-                      ->url('/admin')
-                      ->icon('heroicon-o-shield-check'),
-                  // ...
+              MenuItem::make()
+                ->label('Administrator')
+                ->url('/admin')
+                ->icon('heroicon-o-shield-check'),
+              ])
+              ->navigationGroups([
+                NavigationGroup::make()
+                  ->label('Settings'),
               ])
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
@@ -45,8 +51,8 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

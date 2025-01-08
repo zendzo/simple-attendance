@@ -22,6 +22,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
 use App\Filament\Pages\Presence;
+use Filament\Navigation\MenuItem;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -36,6 +37,13 @@ class AdminPanelProvider extends PanelProvider
             ->profile(EditProfile::class)
             ->colors([
                 'primary' => Color::Teal,
+            ])
+            ->userMenuItems([
+              MenuItem::make()
+                ->label('Apps Dashboard')
+                ->url('/app')
+                ->icon('heroicon-o-computer-desktop'),
+              // ...
             ])
             ->navigationGroups([
                 NavigationGroup::make()
