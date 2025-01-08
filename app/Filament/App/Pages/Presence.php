@@ -2,6 +2,7 @@
 
 namespace App\Filament\App\Pages;
 
+use Carbon\Carbon;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 
@@ -22,50 +23,63 @@ class Presence extends Page
 
   protected function getHeaderActions(): array
   {
-    $presence = \App\Models\Attendance::where('user_id', auth()
+    $presenceIn = \App\Models\Attendance::where('user_id', auth()
       ->user()->id)
-      ->whereDate('clock_in', now())
+      ->whereDate('clock_in', '!=', Carbon::today())
       ->first();
-    $presenceInAndOut = \App\Models\Attendance::where('user_id', auth()
+    $presenceOut = \App\Models\Attendance::where('user_id', auth()
       ->user()->id)
-      ->whereDate('clock_in', now())
-      ->whereNotNull('clock_out')
+      ->whereDate('clock_in', Carbon::today())
+      ->whereNull('clock_out')
+      ->first();
+    $presenceComplete = \App\Models\Attendance::where('user_id', auth()
+      ->user()->id)
+      ->whereDate('clock_in', Carbon::today())
+      ->whereDate('clock_out', Carbon::today())
       ->first();
 
-    if (!$presence) {
+    if ($presenceIn) {
       return [
         Action::make('PresensiMasuk')
-          ->icon('heroicon-o-clock')
-          ->action(function (array $data) {
+        ->icon('heroicon-o-clock')
+        ->action(function (array $data) use ($presenceComplete) {
+          if ($presenceComplete) {
+            Notification::make()
+              ->title('Anda Sudah Melakukan Presensi Hari Ini')
+              ->danger()
+              ->send();
+          } else {
             $attendance = $this->createPresence($data);
-            return redirect()->route('filament.app.pages.presence', $attendance);
-          })
+            return redirect()->route('filament.admin.pages.presence', $attendance);
+          }
+        })
           ->button()
           ->size('lg')
           ->color('primary')
       ];
-    } elseif (!$presenceInAndOut) {
-      return $this->handlePresenceAction($presence);
+    } elseif ($presenceOut) {
+      return $this->hadlePresenceOut($presenceOut);
     } else {
       return [
         Action::make('Sudah Presensi Hari Ini')
-          ->icon('heroicon-o-check-circle')
+        ->icon('heroicon-o-check-circle')
       ];
     }
   }
 
-  private function handlePresenceAction($presence)
+  private function hadlePresenceOut($presence)
   {
     return [
-      Action::make('Keluar')
-        ->action(function (array $data) use ($presence) {
-          $presence->status = 'keluar';
-          $presence->clock_out = now();
-          $presence->updated_at = now();
-          $presence->save();
+      Action::make('PresensiKeluar')
+      ->icon('heroicon-o-clock')
+      ->action(function (array $data) use ($presence) {
+        $presence->status = 'keluar';
+        $presence->clock_out = now();
+        $presence->updated_at = now();
+        $presence->save();
 
-          return redirect()->route('filament.app.pages.presence', $presence);
-        })
+        return redirect()->route('filament.admin.pages.presence', $presence);
+      })
         ->button()
         ->size('lg')
         ->color('danger')
@@ -87,23 +101,6 @@ class Presence extends Page
     return $attendance;
   }
 
-  protected function handlePresenceInAndOut($presence)
-  {
-    return [
-      Action::make('Keluar')
-        ->action(function (array $data) use ($presence) {
-          $presence->status = 'keluar';
-          $presence->clock_out = now();
-          $presence->updated_at = now();
-          $presence->save();
-
-          return redirect()->route('filament.app.pages.presence', $presence);
-        })
-        ->button()
-        ->size('lg')
-        ->color('danger')
-    ];
-  }
 
   public function getActions(): array
   {
@@ -112,11 +109,11 @@ class Presence extends Page
     } else {
       return [
         Action::make('PresensiMasuk')
-          ->icon('heroicon-o-clock')
-          ->action(function (array $data) {
-            $attendance = $this->createPresence($data);
-            return redirect()->route('filament.app.pages.presence', $attendance);
-          })
+        ->icon('heroicon-o-clock')
+        ->action(function (array $data) {
+          $attendance = $this->createPresence($data);
+          return redirect()->route('filament.admin.pages.presence', $attendance);
+        })
           ->button()
           ->size('lg')
           ->color('primary')

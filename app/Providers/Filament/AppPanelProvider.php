@@ -27,6 +27,7 @@ class AppPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->default()
             ->id('app')
             ->path('app')
             ->login(Login::class)
@@ -38,11 +39,12 @@ class AppPanelProvider extends PanelProvider
               MenuItem::make()
                 ->label('Administrator')
                 ->url('/admin')
-                ->icon('heroicon-o-shield-check'),
+                ->icon('heroicon-o-shield-check')
+                ->visible(fn () => auth()->user()->isAdmin()),
               ])
               ->navigationItems([
                 NavigationItem::make('Profile')
-                ->url('app/profile', shouldOpenInNewTab: true)
+                ->url('/app/profile', shouldOpenInNewTab: true)
                 ->icon('heroicon-o-pencil-square')
                 ->group('Settings')
                 ->sort(3),
