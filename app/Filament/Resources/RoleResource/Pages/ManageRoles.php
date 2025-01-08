@@ -10,6 +10,8 @@ class ManageRoles extends ManageRecords
 {
     protected static string $resource = RoleResource::class;
 
+    protected static ?string $title = 'Data Jabatan';
+
     protected function getHeaderActions(): array
     {
         return [

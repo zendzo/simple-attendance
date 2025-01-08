@@ -2,8 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Auth\EditProfile;
-use App\Filament\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -19,43 +17,33 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
-use App\Filament\Pages\Presence;
+use Filament\Navigation\MenuItem;
+use App\Filament\Pages\Auth\Login;
 
-class AdminPanelProvider extends PanelProvider
+class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('app')
+            ->path('app')
             ->login(Login::class)
-            ->profile(isSimple: true)
-            ->profile(EditProfile::class)
             ->colors([
-                'primary' => Color::Teal,
+                'primary' => Color::Amber,
             ])
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Master Data'),
-                NavigationGroup::make()
-                    ->label('Laporan')
-            ])
-            ->navigationItems([
-                // NavigationItem::make('Analytics')
-                // ->url('https://filament.pirsch.io', shouldOpenInNewTab: true)
-                // ->icon('heroicon-o-presentation-chart-line')
-                // ->group('Reports')
-                // ->sort(3),
-            ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->userMenuItems([
+                  MenuItem::make()
+                      ->label('Administrator')
+                      ->url('/admin')
+                      ->icon('heroicon-o-shield-check'),
+                  // ...
+              ])
+            ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
+            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
