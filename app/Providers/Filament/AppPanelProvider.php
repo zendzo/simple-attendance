@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\EditProfile;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -19,9 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\MenuItem;
 use App\Filament\Pages\Auth\Login;
-use Filament\Navigation\NavigationGroup;
-// use Illuminate\Container\Attributes\Auth;
-use Illuminate\Support\Facades\Auth;
+use Filament\Navigation\NavigationItem;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -31,6 +30,7 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('app')
             ->login(Login::class)
+            ->profile(EditProfile::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -40,9 +40,12 @@ class AppPanelProvider extends PanelProvider
                 ->url('/admin')
                 ->icon('heroicon-o-shield-check'),
               ])
-              ->navigationGroups([
-                NavigationGroup::make()
-                  ->label('Settings'),
+              ->navigationItems([
+                NavigationItem::make('Profile')
+                ->url('app/profile', shouldOpenInNewTab: false)
+                ->icon('heroicon-o-pencil-square')
+                ->group('Settings')
+                ->sort(3),
               ])
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
