@@ -42,7 +42,7 @@ class AppPanelProvider extends PanelProvider
               ])
               ->navigationItems([
                 NavigationItem::make('Profile')
-                ->url('app/profile', shouldOpenInNewTab: false)
+                ->url('app/profile', shouldOpenInNewTab: true)
                 ->icon('heroicon-o-pencil-square')
                 ->group('Settings')
                 ->sort(3),
