@@ -50,7 +50,7 @@ class Presence extends Page
               ->send();
           } else {
             $attendance = $this->createPresence($data);
-            return redirect()->route('filament.admin.pages.presence', $attendance);
+            return redirect()->route('filament.app.pages.presence', $attendance);
           }
         })
           ->button()
@@ -78,7 +78,7 @@ class Presence extends Page
         $presence->updated_at = now();
         $presence->save();
 
-        return redirect()->route('filament.admin.pages.presence', $presence);
+        return redirect()->route('filament.app.pages.presence', $presence);
       })
         ->button()
         ->size('lg')
@@ -112,7 +112,7 @@ class Presence extends Page
         ->icon('heroicon-o-clock')
         ->action(function (array $data) {
           $attendance = $this->createPresence($data);
-          return redirect()->route('filament.admin.pages.presence', $attendance);
+          return redirect()->route('filament.app.pages.presence', $attendance);
         })
           ->button()
           ->size('lg')
