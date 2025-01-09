@@ -24,10 +24,9 @@ class Presence extends Page
 
     protected function getHeaderActions(): array
     {
-        $presenceIn = \App\Models\Attendance::where('user_id', auth()
-                    ->user()->id)
-                    ->whereDate('clock_in','!=', Carbon::today())
-                    ->first();
+        $presenceIn = auth()->user()->attendances()
+                  ->whereDate('clock_in', Carbon::today())
+                  ->first();
         $presenceOut = \App\Models\Attendance::where('user_id', auth()
                     ->user()->id)
                     ->whereDate('clock_in', Carbon::today())
