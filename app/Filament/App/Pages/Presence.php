@@ -23,10 +23,13 @@ class Presence extends Page
 
   protected function getHeaderActions(): array
   {
-    $presenceIn = \App\Models\Attendance::where('user_id', auth()
-      ->user()->id)
-      ->whereDate('clock_in', '!=', Carbon::today())
-      ->first();
+    $presenceIn = auth()->user()->attendances()
+                  ->whereDate('clock_in', Carbon::today())
+                  ->first();
+    // $presenceIn = \App\Models\Attendance::where('user_id', auth()
+    //   ->user()->id)
+    //   ->whereDate('clock_in', '!=', Carbon::today())
+    //   ->first();
     $presenceOut = \App\Models\Attendance::where('user_id', auth()
       ->user()->id)
       ->whereDate('clock_in', Carbon::today())
@@ -38,7 +41,7 @@ class Presence extends Page
       ->whereDate('clock_out', Carbon::today())
       ->first();
 
-    if ($presenceIn) {
+    if (!$presenceIn) {
       return [
         Action::make('PresensiMasuk')
         ->icon('heroicon-o-clock')
