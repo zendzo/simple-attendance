@@ -73,6 +73,6 @@ class User extends Authenticatable
 
     public function leaves(): HasMany
     {
-        return $this->BelongsTo(Leave::class);
+        return $this->hasMany(Leave::class);
     }
 }

@@ -31,8 +31,6 @@ class LatestPrecense extends BaseWidget
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.role.name')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('clock_in')
                     ->dateTime()
                     ->sortable(),
@@ -53,7 +51,7 @@ class LatestPrecense extends BaseWidget
             ->filters([
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
