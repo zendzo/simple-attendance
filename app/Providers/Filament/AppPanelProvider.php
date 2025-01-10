@@ -3,10 +3,13 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\EditProfile;
+use App\Filament\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -18,9 +21,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Navigation\MenuItem;
-use App\Filament\Pages\Auth\Login;
-use Filament\Navigation\NavigationItem;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -36,19 +36,19 @@ class AppPanelProvider extends PanelProvider
                 'primary' => Color::Amber,
             ])
             ->userMenuItems([
-              MenuItem::make()
-                ->label('Administrator')
-                ->url('/admin')
-                ->icon('heroicon-o-shield-check')
-                ->visible(fn () => auth()->user()->isAdmin()),
-              ])
-              ->navigationItems([
+                MenuItem::make()
+                    ->label('Administrator')
+                    ->url('/admin')
+                    ->icon('heroicon-o-shield-check')
+                    ->visible(fn () => auth()->user()->isAdmin()),
+            ])
+            ->navigationItems([
                 NavigationItem::make('Profile')
-                ->url('/app/profile', shouldOpenInNewTab: true)
-                ->icon('heroicon-o-pencil-square')
-                ->group('Settings')
-                ->sort(3),
-              ])
+                    ->url('/app/profile', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-pencil-square')
+                    ->group('Settings')
+                    ->sort(3),
+            ])
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([

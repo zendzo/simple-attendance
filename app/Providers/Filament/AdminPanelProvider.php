@@ -4,10 +4,13 @@ namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\EditProfile;
 use App\Filament\Pages\Auth\Login;
-use Filament\Http\Middleware\Authenticate;
+use App\Http\Middleware\VerifyIsAdministrator;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -19,11 +22,6 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
-use App\Filament\Pages\Presence;
-use App\Http\Middleware\VerifyIsAdministrator;
-use Filament\Navigation\MenuItem;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -41,17 +39,17 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Teal,
             ])
             ->userMenuItems([
-              MenuItem::make()
-                ->label('Apps Dashboard')
-                ->url('/app')
-                ->icon('heroicon-o-computer-desktop'),
-              // ...
+                MenuItem::make()
+                    ->label('Apps Dashboard')
+                    ->url('/app')
+                    ->icon('heroicon-o-computer-desktop'),
+                // ...
             ])
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Master Data'),
                 NavigationGroup::make()
-                    ->label('Laporan')
+                    ->label('Laporan'),
             ])
             ->navigationItems([
                 // NavigationItem::make('Analytics')

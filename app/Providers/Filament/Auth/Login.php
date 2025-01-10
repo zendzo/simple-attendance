@@ -2,9 +2,9 @@
 
 namespace App\Filemant\Auth;
 
-use Filament\Forms\Form;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Pages\Auth\Login as BaseAuth;
 use Illuminate\Validation\ValidationException;
 
@@ -14,14 +14,14 @@ class Login extends BaseAuth
     {
         return $form
             ->schema([
-                $this->getLoginFormComponent(), 
+                $this->getLoginFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getRememberFormComponent(),
             ])
             ->statePath('data');
     }
- 
-    protected function getLoginFormComponent(): Component 
+
+    protected function getLoginFormComponent(): Component
     {
         return TextInput::make('login')
             ->label('Login')
@@ -31,20 +31,20 @@ class Login extends BaseAuth
             ->extraInputAttributes(['tabindex' => 1]);
     }
 
-  protected function getCredentialsFromFormData(array $data): array
-  {
-    $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+    protected function getCredentialsFromFormData(array $data): array
+    {
+        $login_type = filter_var($data['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
-    return [
-      $login_type => $data['login'],
-      'password'  => $data['password'],
-    ];
-  }
+        return [
+            $login_type => $data['login'],
+            'password' => $data['password'],
+        ];
+    }
 
-  protected function throwFailureValidationException(): never
-  {
-    throw ValidationException::withMessages([
-      'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
-    ]);
-  }
+    protected function throwFailureValidationException(): never
+    {
+        throw ValidationException::withMessages([
+            'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
+        ]);
+    }
 }

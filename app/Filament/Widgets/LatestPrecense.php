@@ -6,52 +6,59 @@ use App\Models\Attendance;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Model;
 
 class LatestPrecense extends BaseWidget
 {
-    protected int | string | array $columnSpan = 'full';
-    
+    protected int|string|array $columnSpan = 1;
+
+    public function getColumns(): int|string|array
+    {
+        return [
+            'md' => 4,
+            'xl' => 5,
+        ];
+    }
+
     public function table(Table $table): Table
     {
         return $table
             ->query(
                 Attendance::query()
-                ->with('user', 'user.role')
-                ->whereDate('created_at', now()->toDateString())
+                    ->with('user', 'user.role')
+                    ->whereDate('created_at', now()->toDateString())
             )
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                  ->numeric()
-                  ->sortable(),
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.role.name')
-                  ->sortable(),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('clock_in')
-                  ->dateTime()
-                  ->sortable(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('clock_out')
-                  ->dateTime()
-                  ->sortable(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                  ->searchable(),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                  ->dateTime()
-                  ->sortable()
-                  ->toggleable(isToggledHiddenByDefault: true),
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                  ->dateTime()
-                  ->sortable()
-                  ->toggleable(isToggledHiddenByDefault: true),
-      ])->defaultSort('created_at', 'desc')
-      ->filters([
-      ])
-      ->actions([
-        Tables\Actions\EditAction::make(),
-      ])
-      ->bulkActions([
-        Tables\Actions\BulkActionGroup::make([
-          Tables\Actions\DeleteBulkAction::make(),
-        ]),
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])->defaultSort('created_at', 'desc')
+            ->filters([
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 }

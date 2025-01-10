@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -52,9 +51,9 @@ class User extends Authenticatable
         ];
     }
 
-    protected function name() : String
+    protected function name(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function attendances(): HasMany
@@ -70,5 +69,10 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role_id === 1 || $this->role_id === 2;
+    }
+
+    public function leaves(): HasMany
+    {
+        return $this->BelongsTo(Leave::class);
     }
 }

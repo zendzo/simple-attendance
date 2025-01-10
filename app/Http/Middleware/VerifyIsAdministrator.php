@@ -16,7 +16,7 @@ class VerifyIsAdministrator
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user() && Auth::user()->isAdmin()) {
+        if (Auth::user() && Auth::user()->isAdmin()) {
             return $next($request);
         } else {
             return abort(403, 'Unauthorized');

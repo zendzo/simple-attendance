@@ -9,10 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RoleResource extends Resource
 {
@@ -23,7 +20,6 @@ class RoleResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     protected static ?string $navigationGroup = 'Master Data';
-
 
     public static function form(Form $form): Form
     {
@@ -54,10 +50,10 @@ class RoleResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-              // 
+                //
             ])
             ->actions([
-              Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -68,12 +64,12 @@ class RoleResource extends Resource
             ]);
     }
 
-  public static function getRelations(): array
-  {
-    return [
-      RelationManagers\UsersRelationManager::class,
-    ];
-  }
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\UsersRelationManager::class,
+        ];
+    }
 
     public static function getPages(): array
     {
