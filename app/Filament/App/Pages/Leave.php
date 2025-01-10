@@ -30,18 +30,19 @@ class Leave extends Page
   {
       return [
         Actions\Action::make('create')
-          ->label('Create Leave')
-          ->modalHeading('Create New Leave')
+          ->label('Ajuakan Izin | Cuti')
+          ->icon('heroicon-o-calendar-date-range')
+          ->modalHeading('Buat izin baru')
           ->button()
           ->form([
             Forms\Components\TextInput::make('reason')
-              ->label('Reason')
+              ->label('Alasan Cuti')
               ->required(),
             Forms\Components\DatePicker::make('start_date')
-              ->label('Start Date')
+              ->label('Tanggal Mulai')
               ->required(),
             Forms\Components\DatePicker::make('end_date')
-              ->label('End Date')
+              ->label('Tanggal Selesai')
               ->required(),
           ])
           ->action(function (array $data) {
