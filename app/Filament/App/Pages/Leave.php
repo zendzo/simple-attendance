@@ -4,6 +4,7 @@ namespace App\Filament\App\Pages;
 
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
 class Leave extends Page
@@ -26,7 +27,7 @@ class Leave extends Page
     protected function getActions(): array
     {
         return [
-            Actions\Action::make('create')
+            Actions\CreateAction::make('create')
                 ->label('Ajuakan Izin | Cuti')
                 ->icon('heroicon-o-calendar-date-range')
                 ->modalHeading('Buat izin baru')
@@ -52,6 +53,15 @@ class Leave extends Page
                     // Handle the form submission
                     // For example, you can create a new leave record in the database
                     auth()->user()->leaves()->create($data);
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Cuti Berhasil Diajukan')
+                        ->body('Cuti Anda berhasil diajukan. Mohon tunggu persetujuan dari atasan.'),
+                )
+                ->after(function () {
+                    return redirect()->route('filament.app.pages.leave');
                 }),
         ];
     }
