@@ -33,7 +33,7 @@ class Leave extends Page
                 ->button()
                 ->form([
                     Forms\Components\Select::make('reason')
-                        ->label('Alasan Cuti')
+                        ->label('Alasan')
                         ->options([
                             'sakit' => 'Sakit',
                             'izin' => 'Izin',
