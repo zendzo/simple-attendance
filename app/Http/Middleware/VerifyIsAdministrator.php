@@ -19,7 +19,9 @@ class VerifyIsAdministrator
         if (Auth::user() && Auth::user()->isAdmin()) {
             return $next($request);
         } else {
-            return abort(403, 'Unauthorized');
+            if (Auth::guest()) {
+                return redirect()->route('filament.app.auth.login');
+            }
         }
     }
 }
