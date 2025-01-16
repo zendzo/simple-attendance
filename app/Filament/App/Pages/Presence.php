@@ -78,8 +78,8 @@ class Presence extends Page
                 ->icon('heroicon-o-clock')
                 ->action(function (array $data) use ($presence) {
                     $presence->status = 'keluar';
-                    $presence->clock_out = now();
-                    $presence->updated_at = now();
+                    $presence->clock_out = Carbon::now($timezone = 'Asia/Jakarta');
+                    $presence->updated_at = Carbon::now($timezone = 'Asia/Jakarta');;
                     $presence->save();
 
                     return redirect()->route('filament.app.pages.presence', $presence);
@@ -93,11 +93,11 @@ class Presence extends Page
     protected function createPresence(array $data)
     {
         $data['status'] = 'masuk';
-        $data['clock_in'] = now();
+        $data['clock_in'] = Carbon::now($timezone = 'Asia/Jakarta');
         $data['clock_out'] = null;
         $data['user_id'] = auth()->id();
-        $data['created_at'] = now();
-        $data['updated_at'] = now();
+        $data['created_at'] = Carbon::now($timezone = 'Asia/Jakarta');
+        $data['updated_at'] = Carbon::now($timezone = 'Asia/Jakarta');
         $data['deleted_at'] = null;
         $attendance = new \App\Models\Attendance($data);
         $attendance->save();
