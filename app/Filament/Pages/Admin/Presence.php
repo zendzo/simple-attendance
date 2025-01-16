@@ -15,7 +15,7 @@ class Presence extends Page
 
     protected static string $view = 'filament.pages.admin.presence';
 
-    protected static ?string $title = 'Presensi Karayawan';
+    protected static ?string $title = 'Presensi Karyawan';
 
     public function getHeaderWidgetsColumns(): int|array
     {

@@ -12,6 +12,8 @@ class AttendancesRelationManager extends RelationManager
 {
     protected static string $relationship = 'attendances';
 
+    protected static ?string $title = 'Presensi';
+
     public function form(Form $form): Form
     {
         return $form

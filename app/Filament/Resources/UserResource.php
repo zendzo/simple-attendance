@@ -125,6 +125,7 @@ class UserResource extends Resource
     {
         return [
             RelationManagers\AttendancesRelationManager::class,
+            RelationManagers\LeavesRelationManager::class,
         ];
     }
 
