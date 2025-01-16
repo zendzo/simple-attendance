@@ -10,11 +10,14 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class AttendanceResource extends Resource
 {
@@ -55,7 +58,9 @@ class AttendanceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+                ->heading('Data Presensi ')
+                ->description('Data Kehadiran Karyawan')
+                ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
@@ -113,13 +118,26 @@ class AttendanceResource extends Resource
                     ->searchable()
                     ->preload()
                     ->multiple(),
+                SelectFilter::make('Karyawan')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
             ], layout: FiltersLayout::AboveContent)->filtersFormColumns(3)
+            ->headerActions([
+              ExportAction::make()->exports([
+                ExcelExport::make('table')
+                    ->fromTable()
+                    ->withFilename(Carbon::now()->format('Y-m-d H:i:s')),
+              ]),
+            ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make(),
                 ]),
             ]);
     }

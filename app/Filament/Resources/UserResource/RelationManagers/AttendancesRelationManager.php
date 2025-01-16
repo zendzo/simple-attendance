@@ -33,6 +33,7 @@ class AttendancesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('name')
+            ->heading('Data Presensi '.auth()->user()->name)
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()

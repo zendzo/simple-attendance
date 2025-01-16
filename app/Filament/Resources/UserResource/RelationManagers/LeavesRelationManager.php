@@ -30,6 +30,7 @@ class LeavesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('name')
+            ->heading('Data Izin | Cuti '.auth()->user()->name)
             ->columns([
                   Tables\Columns\TextColumn::make('user.name')
                     ->sortable(),

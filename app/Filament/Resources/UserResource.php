@@ -16,10 +16,15 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
+    protected static ?string $title = 'Data Karyawan';
 
     protected static ?string $navigationLabel = 'Data User';
 
@@ -59,12 +64,14 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->heading('Data Karyawan')
+            ->description('Data karyawan yang terdaftar di sistem')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('username')
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role.name')
+                    ->label('Jabatan')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Terdaftar')
@@ -111,12 +118,20 @@ class UserResource extends Resource
                     ->preload()
                     ->multiple(),
             ], layout: FiltersLayout::AboveContent)->filtersFormColumns(2)
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make('table')
+                        ->fromTable()
+                        ->withFilename('Data Karyawan '.Carbon::now()->format('Y-m-d H:i:s')),
+                ]),
+            ])
             ->actions([
-            Tables\Actions\EditAction::make(),
-        ])
+                Tables\Actions\EditAction::make(),
+            ])
             ->bulkActions([
             Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make(),
             ]),
         ]);
     }
