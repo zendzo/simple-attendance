@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesTableSeeder::class,
             AdministratorSeeder::class,
+            AttendanceDataSeeder::class,
         ]);
 
         User::factory()->has(Attendance::factory()->count(1))->count(10)->create();
